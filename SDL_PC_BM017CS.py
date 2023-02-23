@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import time
 import smbus
 from Adafruit_I2C import Adafruit_I2C
@@ -46,7 +46,7 @@ class SDL_BM017:
 		device = self.i2c.readU8(self.__SDL_BM017_IDAddress)
 		if (device == 0x44):
 			if (self.debug):
-				print ("SDL_BM017 / TCS34725 is present")
+				print("SDL_BM017 / TCS34725 is present")
 			return 1
 		else:
 			if (self.debug):
@@ -85,19 +85,20 @@ class SDL_BM017:
 		self.i2c.write8(self.__SDL_BM017_EnableAddress, reg & ~(self.TCS34725_ENABLE_PON | self.TCS34725_ENABLE_AEN));
 	# This can be used to trigger the LED.  Connect the INT pin to LEDON pin and connecting the VDD_LED pin to 3.3V 
 	def setInterrupt(self, state):
-	  	reg = self.i2c.readU8(self.__SDL_BM017_EnableAddress)
-	    	if (state):
-	        	reg |= self.TCS34725_ENABLE_AIEN
-			if(self.debug):
-				print("Interrupt On")
+		reg = self.i2c.readU8(self.__SDL_BM017_EnableAddress)
+		if(state):
+			reg |= self.TCS34725_ENABLE_AIEN
+		if(self.debug):
+			print("Interrupt On")
 		else: 
-		      	reg &= ~self.TCS34725_ENABLE_AIEN
-			if(self.debug):
-				print("Interrupt Off")
+		    reg &= ~self.TCS34725_ENABLE_AIEN
+		if(self.debug):
+			print("Interrupt Off")
 		self.i2c.write8(self.__SDL_BM017_EnableAddress, reg)
+
 	def clearInterrupt(self): 
 		self.i2c.write8(0x66, 0x00)
- 	def setInterruptLimits(self, low, high):
+	def setInterruptLimits(self, low, high):
 		self.i2c.write8(0x04, low & 0xFF)
 		self.i2c.write8(0x05, low >> 8)
 		self.i2c.write8(0x06, high & 0xFF)
